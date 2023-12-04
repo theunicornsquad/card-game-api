@@ -1,0 +1,22 @@
+name: Deploy in development
+
+on:
+  push:
+    branches:
+      - dev
+
+concurrency:
+  group: "workers"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to Cloudflare Workers with Wrangler
+        uses: cloudflare/wrangler-action@v3.1.0
+        with:
+          apiToken: ${{ CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ CLOUDFLARE_ACCOUNT_ID }}
